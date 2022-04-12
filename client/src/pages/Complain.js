@@ -1,21 +1,28 @@
 // import hook
-import React from 'react'
+import React, { useEffect } from 'react';
 
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar';
 
-// import package here
+import { io } from 'socket.io-client';
 
 // init variable here
+let socket;
+
 export default function Complain() {
+  const title = 'Complain';
+  document.title = 'DumbMerch | ' + title;
 
-    const title = "Complain"
-    document.title = 'DumbMerch | ' + title
+  useEffect(() => {
+    socket = io('http://localhost:5000/');
 
-    // code here
-    
-    return (
-        <>
-            <Navbar title={title} />
-        </>
-    )
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  return (
+    <>
+      <Navbar title={title} />
+    </>
+  );
 }
